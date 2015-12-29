@@ -33,4 +33,8 @@ public class Constants {
      */
     //static final int MAX_EXPECTED_TX_POWER = 20;
 
+    public static final int MIN_SPOT_INTERVAL = 3;  // Minimum time between 2 spots of same beacon
+    public static final String SERVER_URL = "http://firefly-staging.elasticbeanstalk.com/";
+    public static final int VEHICLE_UPDATE_INTERVAL = 5*1000;  // Minimum time between 2 live vehicle queries in milliseconds
+
 }

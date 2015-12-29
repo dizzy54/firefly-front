@@ -10,6 +10,11 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * Created by akshat on 11/12/15.
  */
@@ -80,6 +85,43 @@ public class Utils {
             Toast.makeText(context, "permission for gps denied", Toast.LENGTH_SHORT).show();
             return null;
         }
+    }
+
+    public static String getLocalTimefromTimestampInSeconds(long timestamp) {
+        Calendar cal = Calendar.getInstance();
+        TimeZone tz = cal.getTimeZone();
+
+        /* date formatter in local timezone */
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        sdf.setTimeZone(tz);
+
+        /* print your timestamp and double check it's the date you expect */
+
+        String localTime = sdf.format(new Date(timestamp * 1000));
+        return localTime;
+    }
+
+    public static String getDisplayTimefromTimestampInSeconds(long timestamp) {
+        String displayTime = "at " + getLocalTimefromTimestampInSeconds(timestamp);
+
+        // check if within 1 hour, change format accordingly
+        long currentTimestamp = System.currentTimeMillis()/1000;
+        if (currentTimestamp - timestamp < 60*60 - 30){
+            long seconds = (currentTimestamp - timestamp);
+            long minutes = 0;
+            if (seconds % 60 > 30) {
+                minutes = seconds / 60 + 1;
+            }
+            else {
+                minutes = seconds / 60;
+            }
+            if (minutes > 1) {
+                displayTime = Long.toString(minutes) + " minutes ago";
+            } else {
+                displayTime = Long.toString(seconds) + " seconds ago";
+            }
+        }
+        return displayTime;
     }
 
 }
